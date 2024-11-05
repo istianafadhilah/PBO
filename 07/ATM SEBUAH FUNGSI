@@ -1,0 +1,61 @@
+// Model Nilai
+class Nilai {
+    constructor(nilai) {
+        this.nilai = nilai;
+    }
+
+    // Metode untuk menghitung rata-rata
+    hitungRataRata() {
+        if (!Array.isArray(this.nilai) || this.nilai.length === 0) {
+            throw new Error("Data nilai tidak valid atau kosong.");
+        }
+        const total = this.nilai.reduce((acc, curr) => acc + curr, 0);
+        return total / this.nilai.length;
+    }
+}
+
+// View Nilai
+class NilaiView {
+    // Metode untuk merender rata-rata
+    render(rataRata) {
+        return `Rata-rata nilai: ${rataRata}`;  // Memperbaiki string template
+    }
+
+    // Metode untuk merender pesan error
+    renderError(error) {
+        return `Error: ${error}`;  // Memperbaiki string template
+    }
+}
+
+// Fungsi untuk menampilkan rata-rata
+function tampilkanRataRata(nilai) {
+    const view = new NilaiView();
+    try {
+        const modelNilai = new Nilai(nilai);
+        const rataRata = modelNilai.hitungRataRata();
+        console.log(view.render(rataRata));
+    } catch (error) {
+        console.log(view.renderError(error.message));
+    }
+}
+
+// Fungsi bagi
+function bagi(a, b) {
+    try {
+        if (b === 0) {
+            throw new Error("Pembagian dengan nol tidak diperbolehkan.");
+        }
+        return a / b;
+    } catch (error) {
+        console.error("Terjadi error:", error.message);
+    } finally {
+        console.log("Operasi pembagian selesai.");
+    }
+}
+
+// Testing the functions
+tampilkanRataRata([63, 73, 83]);  // Harus mengeluarkan rata-rata
+tampilkanRataRata([]);            // Harus menampilkan kesalahan
+
+console.log(bagi(63, 2));          // Harus menghasilkan 31,5
+console.log(bagi(63, 0));          // Harus menampilkan kesalahan
